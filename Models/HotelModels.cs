@@ -31,8 +31,7 @@ namespace CodeFirst.Models
     public class OrderItem
     {
 
-        public int Id { get; set; }
-        
+        public int Id { get; set; }        
         public int ItemId { get; set; }        
         public int OrderId { get; set; }
         public int Quantity { get; set; }
@@ -43,5 +42,20 @@ namespace CodeFirst.Models
         [ForeignKey("ItemId")]
         public virtual Item item { get; set; }
 
+    }
+    public class OrderModel
+    {
+        public IList<OrderItem> OrderedItems { get; set; }
+        public IList<Item> FoodMenuItems { get; set; }
+        public Order OrderDetails { get; set; }
+    }
+
+    public class OrderedItem
+    {
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
+        public decimal Total { get; set; }
     }
 }

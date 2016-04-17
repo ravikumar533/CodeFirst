@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CodeFirst.Models.OrderedItem>
+ @{
+     Layout = null;
+}
+ <h4>
+     Ordered Items
+ </h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th> Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.ItemName</td>
+                <td>@item.Price</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Total)</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3">&nbsp;</td>
+            <td>@Model.Select(s=> s.Price * s.Quantity ).Sum()</td>
+        </tr>
+    </tbody>
+</table>

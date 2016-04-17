@@ -39,6 +39,7 @@ namespace CodeFirst.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<ItemInterface, ItemRepository>();
+            container.RegisterType<IOrderRepo, OrderRepo>();
         }
     }
 }

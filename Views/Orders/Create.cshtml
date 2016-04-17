@@ -1,0 +1,101 @@
+﻿@model CodeFirst.Models.OrderModel
+
+@{
+    ViewBag.Title = "Create";
+    
+}
+
+<h2>Create</h2>
+
+
+
+    <div class="row">
+        <div class="col-lg-3">           
+            <div class="list-group">
+                <h4>&nbsp;</h4>
+                    @foreach (var item in Model.FoodMenuItems)
+                {
+                        <a id="@item.Id" href="#" class="list-group-item">
+                            <span class="badge">@item.Price</span>
+                            @item.Name
+                        </a>
+
+                    }
+                </div>            
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-6">
+                    
+                    <div id="ItemTable" style="display:none;">
+                        <h4> Items List </h4>
+                        <table class="table table-bordered"></table>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-6">
+                    <div id="userform" class="form-horizontal" style="display:none;">
+                        <h4>Order Person Details</h4>
+                        <hr />                        
+                        
+@using (Html.BeginForm())
+{
+    @Html.Hidden("Id", Model.OrderDetails.Id.ToString())
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.TextBox("UserName", Model.OrderDetails.UserName, new { @class = "form-control", placeholder = "User Name" })
+                                
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.TextBox("Phone", Model.OrderDetails.Phone, new { @class = "form-control", placeholder = "phone" })                                
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Pay Bill" id="payBill"class="btn btn-default" />
+                            </div>
+                        </div>
+}
+                    </div>
+
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(function () {
+        $('.list-group-item').click(function (e) {
+            e.preventDefault();
+            var data = { itemId: this.id, orderId: $("#Id").val() };
+            $.ajax({
+                url: '@Url.Action("SaveOrderItem")',
+                data: data,
+                success: function (data) {
+                    $("#ItemTable").load('@Url.Action("OrderedItemList")', { orderId: data }).fadeIn();
+                    $("#userform").fadeIn();
+                    $("#Id").val(data);
+                }
+            });
+        });
+        $("#payBill").click(function () {
+            var data = { orderId: $("#Id").val(), userName: $("#UserName").val(), phone: $("#Phone").val() };
+
+        });
+    });
+    </script>
+}
